@@ -33,12 +33,15 @@ def process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-"
   #else
   #  csv = File.open(path_to_output_file, "w") 
   #end
-  header = [
+  puts [
       #'Original Timestamp', 
       'Date', 
       #'Start', 
       #'End', 
-      'Minutes', 'Hours', 'Person', 'Notes', 'Week Number', 'Year'].to_csv
+      'Minutes', 'Hours', 'Person', 'Email', 'Notes', 'Week Number', 'Year'].to_csv
+  
+      
+  # Go through the work log  
   worklog.keys.sort.each do |date|
       #timestamp = date.to_s(:db)
       #timestamp = date
@@ -58,6 +61,7 @@ def process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-"
             duration_in_minutes,
             duration_in_hours,
             worklog[date].author.name,
+            worklog[date].author.email,
             worklog[date].message,
             start_time.strftime("%W").to_i,
             start_time.strftime("%Y").to_i]
