@@ -2,7 +2,7 @@
 #
 # Extract Reasonable Developer Time Records from a GIT Repository's Commit Log
 #
-# This is inspired by a RAKE task publically posted by Sharad at 
+# This is inspired by a RAKE task publicly posted by Sharad at 
 # http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. 
 # However, it has been adapted to run without Rails from the command line.
 #
@@ -10,7 +10,8 @@
 # the git gem.  Istall it on your system with:
 #   gem install git
 #
-# 
+# Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
+#
 
 require 'rubygems'
 require 'ostruct'
@@ -53,7 +54,6 @@ def process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-"
       'Year'
       ].to_csv
   
-      
   # Go through the work log  
   worklog.keys.sort.each do |date|
       
