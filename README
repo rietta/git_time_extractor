@@ -6,7 +6,7 @@ This tool goes through a GIT repository's commit log and prints a CSV dump of pe
     - A single commit (or the first commit of the session) is considered to represent 30 minutes of work time
     - The more frequent a developer commits to the repository while working, the more accurate the time report will be
     
-This script is based on previous code published publicly Sharad at http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. However, it has been adapted to run without Rails from the command line. The portions of the code written by Rietta are licensed under the terms of the BSD license (see section 3 below).
+This script is based on previous code published publicly by Sharad at http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. However, it has been adapted to run without Rails from the command line. The portions of the code written by Rietta are licensed under the terms of the BSD license (see section 3 below).
     
 -----------------------------------------
 1. Prerequisites
