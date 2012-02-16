@@ -1,0 +1,16 @@
+Extract Reasonable Time Records from a GIT Repository
+
+This tool goes through a GIT repository's commit log and prints a CSV dump of per developer, per day working time based on a couple of assumptions:
+
+    - 
+
+1. Prerequisites
+
+First, install a git gem.  For example:
+
+    gem install git
+
+2. Running
+
+    cd /path/to/your/repository
+    time_extract.rb > time_log.csv

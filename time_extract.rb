@@ -1,6 +1,16 @@
 #!/usr/bin/env ruby
-# Rietta GIT to TimeLog Extractor
-# Based on work by http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/
+#
+# Extract Reasonable Developer Time Records from a GIT Repository's Commit Log
+#
+# This is inspired by a RAKE task publically posted by Sharad at 
+# http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. 
+# However, it has been adapted to run without Rails from the command line.
+#
+# This script is designed to work from the command line with Ruby 1.9.3. It requires
+# the git gem.  Istall it on your system with:
+#   gem install git
+#
+# 
 
 require 'rubygems'
 require 'ostruct'
@@ -8,17 +18,19 @@ require 'logger'
 require 'git'
 require 'csv'
 
-#task :timelog => [:environment] do
-# process_git_log_into_time(Rails.root.to_s)
-#end
-
-def process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-")
+def process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-", project_name = "")
+  
+  raise "Output path not yet implemented." if "-" != path_to_output_file
+  
+  # Open the GIT Repository for Reading
   logger = Logger.new(STDOUT)
   logger.level = Logger::WARN
   g = Git.open(path_to_git_repo, :log => logger)
   logs = g.log(1000)
   log_entries = logs.entries.reverse
   worklog = {}
+
+  # Go through the GIT commit records and construct the time
   log_entries.each_with_index do |commit, index|
     author_date = commit.author_date.to_date
     daylog = worklog[author_date] || OpenStruct.new(:date => author_date, :duration => 0)
@@ -26,25 +38,24 @@ def process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-"
     daylog.message = "#{daylog.message} --- #{commit.message}"
     daylog.duration = daylog.duration + calc_duration_in_minutes(log_entries, index)
     worklog[author_date] = daylog
-  end
+  end # log_entries
   
-  #if "-" == path_to_output_file
-  #  csv = CSV  # Standard out
-  #else
-  #  csv = File.open(path_to_output_file, "w") 
-  #end
+  # Print the header row for the CSV
   puts [
-      #'Original Timestamp', 
-      'Date', 
-      #'Start', 
-      #'End', 
-      'Minutes', 'Hours', 'Person', 'Email', 'Notes', 'Week Number', 'Year'].to_csv
+      'Date',
+      'Minutes',
+      'Hours',
+      'Person',
+      'Email',
+      'Project',
+      'Notes',
+      'Week Number',
+      'Year'
+      ].to_csv
   
       
   # Go through the work log  
   worklog.keys.sort.each do |date|
-      #timestamp = date.to_s(:db)
-      #timestamp = date
       
       start_time = DateTime.parse(date.to_s)
       duration_in_seconds = (worklog[date].duration.to_f * 60.0).round(0)
@@ -52,16 +63,13 @@ def process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-"
       duration_in_hours = (worklog[date].duration / 60.0).round(1)
       
       stop_time = start_time + duration_in_seconds
-      #puts "#{timestamp} #{duration_in_hours}"
       row = [
-            #date.to_s, 
             start_time.strftime("%m/%d/%Y"), 
-            #start_time.strftime("%H:%M"),
-            #stop_time.strftime("%H:%M"),
             duration_in_minutes,
             duration_in_hours,
             worklog[date].author.name,
             worklog[date].author.email,
+            project_name,
             worklog[date].message,
             start_time.strftime("%W").to_i,
             start_time.strftime("%Y").to_i]
@@ -89,13 +97,14 @@ end # calc_duration
 
 
 ####################################
-## Command Line UI
+## Command Line Interface
 ####################################
 
 #puts "\n# Arguments #{ARGV.length}\n"
 if ARGV.empty?
   output_file = "-"
   path_to_repo = Dir.pwd
+  project_name = ""
 elsif ARGV.length == 2
   output_file = ARGV.pop
   path_to_repo = ARGV.pop
@@ -103,7 +112,7 @@ elsif ARGV.length == 1
   output_file = "-"
   path_to_repo = ARGV.pop
 else
-  puts "Usage: time_extract PATH_TO_REPO [OUTPUT_FILE]"
+  puts "Usage: time_extract PROJECT_NAME [PATH_TO_REPO] [OUTPUT_FILE]"
   exit 0
 end
 
