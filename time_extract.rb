@@ -7,7 +7,7 @@
 # However, it has been adapted to run without Rails from the command line.
 #
 # This script is designed to work from the command line with Ruby 1.9.3. It requires
-# the git gem.  Istall it on your system with:
+# the git gem.  Install it on your system with:
 #   gem install git
 #
 # Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
