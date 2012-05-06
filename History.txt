@@ -1,0 +1,8 @@
+=== 0.1.0 / 2012-05-05
+
+* 1 major enhancement
+
+  * Birthday of this git_time_extractor gem.
+
+=== 0.1.0 / 2012-02-15
+* Initial code release on https://github.com/rietta/git_time_extractor/ - not a gem.

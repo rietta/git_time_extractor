@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# Extract Reasonable Developer Time Records from a GIT Repository's Commit Log
+#
+# This is inspired by a RAKE task publicly posted by Sharad at 
+# http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. 
+# However, it has been adapted to run without Rails from the command line.
+#
+# Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
+
+  require "lib/git_time_extractor.rb"
+
+  puts "\n# Arguments #{ARGV.length}\n"
+
+  valid_usage = false
+
+  if ARGV.empty?
+    output_file = "-"
+    path_to_repo = Dir.pwd
+    project_name = ""
+    valid_usage = true
+  elsif "-h" == ARGV[0].downcase || "--help" == ARGV[0].downcase
+    # Show help
+  elsif ARGV.length == 2
+    output_file = ARGV.pop
+    path_to_repo = ARGV.pop
+    valid_usage = true
+  elsif ARGV.length == 1
+    output_file = "-"
+    path_to_repo = ARGV.pop 
+    valid_usage = true
+  end
+
+  unless valid_usage
+    puts "Usage: git_time_extractor PROJECT_NAME [PATH_TO_REPO] [OUTPUT_FILE]"
+    exit 0
+  else 
+    #path_to_repo = File.expand_path(File.dirname(path_to_repo)) if nil != path_to_repo && "" != path_to_repo
+    #puts "\n\nGit Repo Path: #{path_to_repo}\nOutput: #{output_file}\n"
+    GitTimeExtractor.process_git_log_into_time(path_to_repo, output_file)
+  end
+
