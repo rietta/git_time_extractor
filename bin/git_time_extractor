@@ -7,12 +7,12 @@
 #
 # Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
 
-  #Adjust path in case called directly and not through gem
+  # Adjust path in case called directly and not through gem
   $:.unshift "#{File.expand_path(File.dirname(__FILE__))}/../lib"
 
   require 'git_time_extractor'
 
-  puts "\n# Arguments #{ARGV.length}\n"
+  #puts "\n# Arguments #{ARGV.length}\n"
 
   valid_usage = false
 
@@ -35,6 +35,7 @@
 
   unless valid_usage
     puts "Usage: git_time_extractor PROJECT_NAME [PATH_TO_REPO] [OUTPUT_FILE]"
+    puts "Copyright 2012 Rietta Inc.  http://www.rietta.com"
     exit 0
   else 
     #path_to_repo = File.expand_path(File.dirname(path_to_repo)) if nil != path_to_repo && "" != path_to_repo
