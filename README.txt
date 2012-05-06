@@ -1,5 +1,6 @@
 = git_time_extractor
 
+RubyGem Page: https://rubygems.org/gems/git_time_extractor
 Project Wiki: https://github.com/rietta/git_time_extractor/wiki
 
 == DESCRIPTION:
