@@ -11,9 +11,9 @@ git_time_extractor is a free tool that goes through a GIT, the popular revision 
 
 The working time estimates are based on three assumptions:
 
-    1. A series of commits within a 3 hour window are part of the same development session
+    1. A series of commits within a three (3) hour window are part of the same development session
     2. A single commit (or the first commit of the session) is considered to represent 30 minutes of work time
-    3. The more frequent a developer commits to the repository while working, the more accurate the time report will be
+    3. The more frequently a developer commits to the repository while working, the more accurate the time report will be
 
 This script is based on previous code published publicly by Sharad at http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. However, it has been adapted to run without Rails from the command line. The portions of the code written by Rietta are licensed under the terms of the BSD license (see section 3 below).
 

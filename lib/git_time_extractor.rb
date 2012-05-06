@@ -8,7 +8,7 @@
 # Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
 #
 class GitTimeExtractor
-  VERSION = '0.2.0'
+  VERSION = '0.2.1'
   
   require 'rubygems'
   require 'ostruct'
@@ -95,7 +95,9 @@ class GitTimeExtractor
       duration = commit.author_date - previous_commit.author_date
       
       # ASSUMPTION: if the gap between 2 commits is more than 3 hours, reduce it to 1/2 hour
-      duration = 30 * 60 if duration > 3 * 3600
+      # Also, if the time is negative then this is usually a merge operation.  Assume the developer spent
+      # 30 minutes reviewing it
+      duration = 30 * 60 if duration < 0 || duration > 3 * 3600
     else
       # ASSUMPTION: first commit took 1/2 hour
       duration = 30 * 60
