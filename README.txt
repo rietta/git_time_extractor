@@ -7,7 +7,7 @@ Project Wiki: https://github.com/rietta/git_time_extractor/wiki
 
 EXTRACT REASONABLE TIME RECORDS FROM A GIT REPOSITORY
 
-git_time_extractor is a free tool that goes through a GIT, the popular revision control system, repository's commit log and produces a Comma Seperated Values (CSV) file that indicates the time spent by each developer, per day. 
+git_time_extractor is a free tool that goes through a GIT, the popular revision control system, repository's commit log and produces a Comma Separated Values (CSV) file that indicates the time spent by each developer, per day. 
 
 The working time estimates are based on three assumptions:
 
