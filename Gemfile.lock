@@ -1,0 +1,18 @@
+PATH
+  remote: .
+  specs:
+    git_time_extractor (0.2.0)
+      git
+      logger
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    git (1.2.5)
+    logger (1.2.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  git_time_extractor!
