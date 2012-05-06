@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=ASCII-8BIT" http-equiv="Content-Type">
+
+<title>git_time_extractor-0.2.0 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body>
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_txt.html">History</a>
+  
+    <li class="file"><a href="./Manifest_txt.html">Manifest</a>
+  
+    <li class="file"><a href="./README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./GitTimeExtractor.html">GitTimeExtractor</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h1 id="label-git_time_extractor">git_time_extractor</h1>
+
+<p><a
+href="https://github.com/rietta/git_time_extractor/wiki">github.com/rietta/git_time_extractor/wiki</a></p>
+
+<h2 id="label-DESCRIPTION%3A">DESCRIPTION:</h2>
+
+<p>EXTRACT REASONABLE TIME RECORDS FROM A GIT REPOSITORY</p>
+
+<p>This tool goes through a GIT repository's commit log and prints a CSV dump
+of per developer, per day working time based on a few assumptions:</p>
+
+<pre>- A series of commits within a 3 hour window are part of the same development session
+- A single commit (or the first commit of the session) is considered to represent 30 minutes of work time
+- The more frequent a developer commits to the repository while working, the more accurate the time report will be</pre>
+
+<p>This script is based on previous code published publicly by Sharad at <a
+href="http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/.">www.tatvartha.com/2010/01/generating-time-entry-from-git-log/.</a>
+However, it has been adapted to run without Rails from the command line.
+The portions of the code written by Rietta are licensed under the terms of
+the BSD license (see section 3 below).</p>
+
+<h2 id="label-FEATURES%2FPROBLEMS%3A">FEATURES/PROBLEMS:</h2>
+
+<pre>* Scans GIT commit log
+* Writes CSV output</pre>
+
+<h2 id="label-SYNOPSIS%3A">SYNOPSIS:</h2>
+
+<pre>cd /path/to/your/repository
+git_time_extractor &gt; time_log.csv</pre>
+
+<h2 id="label-REQUIREMENTS%3A">REQUIREMENTS:</h2>
+
+<pre>The following GEMS are required as dependencies:
+        * git
+        * logger</pre>
+
+<h2 id="label-INSTALL%3A">INSTALL:</h2>
+
+<pre>gem install git_time_extractor</pre>
+
+<h2 id="label-DEVELOPERS%3A">DEVELOPERS:</h2>
+
+<p>After checking out the source, run:</p>
+
+<pre>$ rake newb</pre>
+
+<p>This task will install any missing dependencies, run the tests/specs, and
+generate the RDoc.</p>
+
+<h2 id="label-LICENSE%3A">LICENSE:</h2>
+
+<p>(The BSD License)</p>
+
+<p>Copyright (c) 2012 Rietta Inc. All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+
+<p>Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer. Redistributions in binary
+form must reproduce the above copyright notice, this list of conditions and
+the following disclaimer in the documentation and/or other materials
+provided with the distribution.</p>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.</p>
+
+</div>
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

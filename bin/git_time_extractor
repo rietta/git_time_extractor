@@ -7,7 +7,10 @@
 #
 # Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
 
-  require "lib/git_time_extractor.rb"
+  #Adjust path in case called directly and not through gem
+  $:.unshift "#{File.expand_path(File.dirname(__FILE__))}/../lib"
+
+  require 'git_time_extractor'
 
   puts "\n# Arguments #{ARGV.length}\n"
 

@@ -16,19 +16,23 @@ This script is based on previous code published publicly by Sharad at http://www
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
-
+	* Scans GIT commit log
+	* Writes CSV output
+	
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  	cd /path/to/your/repository
+  	git_time_extractor > time_log.csv
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+	The following GEMS are required as dependencies:
+		* git
+		* logger
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+	gem install git_time_extractor
 
 == DEVELOPERS:
 

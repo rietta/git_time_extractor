@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=ASCII-8BIT" http-equiv="Content-Type">
+
+<title>class GitTimeExtractor - git_time_extractor-0.2.0 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/git_time_extractor.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-calc_duration_in_minutes">::calc_duration_in_minutes</a>
+    
+    <li><a href="#method-c-process_git_log_into_time">::process_git_log_into_time</a>
+    
+    <li><a href="#method-c-say_hi">::say_hi</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_txt.html">History</a>
+  
+    <li class="file"><a href="./Manifest_txt.html">Manifest</a>
+  
+    <li class="file"><a href="./README_txt.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./GitTimeExtractor.html">GitTimeExtractor</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class GitTimeExtractor</h1>
+
+  <div id="description" class="description">
+    
+<p>Extract Reasonable Developer Time Records from a GIT Repository's Commit
+Log</p>
+
+<p>This is inspired by a RAKE task publicly posted by Sharad at  <a
+href="http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/.">www.tatvartha.com/2010/01/generating-time-entry-from-git-log/.</a>
+However, it has been adapted to run without Rails from the command line.</p>
+
+<p>Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD
+license.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-calc_duration_in_minutes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">calc_duration_in_minutes</span><span
+            class="method-args">(log_entries, index)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Calculate the duration of work in minutes</p>
+          
+
+          
+          <div class="method-source-code" id="calc_duration_in_minutes-source">
+            <pre><span class="ruby-comment"># File lib/git_time_extractor.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">calc_duration_in_minutes</span>(<span class="ruby-identifier">log_entries</span>, <span class="ruby-identifier">index</span>)
+  <span class="ruby-identifier">commit</span> = <span class="ruby-identifier">log_entries</span>[<span class="ruby-identifier">index</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">previous_commit</span> = <span class="ruby-identifier">log_entries</span>[<span class="ruby-identifier">index</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>]
+    <span class="ruby-comment"># Default duration in Ruby is in seconds</span>
+    <span class="ruby-identifier">duration</span> = <span class="ruby-identifier">commit</span>.<span class="ruby-identifier">author_date</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">previous_commit</span>.<span class="ruby-identifier">author_date</span>
+    
+    <span class="ruby-comment"># ASSUMPTION: if the gap between 2 commits is more than 3 hours, reduce it to 1/2 hour</span>
+    <span class="ruby-identifier">duration</span> = <span class="ruby-value">30</span> * <span class="ruby-value">60</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">duration</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span> * <span class="ruby-value">3600</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment"># ASSUMPTION: first commit took 1/2 hour</span>
+    <span class="ruby-identifier">duration</span> = <span class="ruby-value">30</span> * <span class="ruby-value">60</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">duration</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> <span class="ruby-value">60.0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- calc_duration_in_minutes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- calc_duration_in_minutes-method -->
+
+    
+      <div id="method-c-process_git_log_into_time" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">process_git_log_into_time</span><span
+            class="method-args">(path_to_git_repo = "./", path_to_output_file = "-", project_name = "")</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Go through the GIT commit log, to compute the elapsed working time of each
+committing developer, based on a few assumptions:</p>
+
+<p>(1) A series of commits within a 3 hour window are part of the same
+development session (2) A single commit (or the first commit of the
+session) is considered to represent 30 minutes of work time (3) The more
+frequent a developer commits to the repository while working, the more
+accurate the time report will be</p>
+          
+
+          
+          <div class="method-source-code" id="process_git_log_into_time-source">
+            <pre><span class="ruby-comment"># File lib/git_time_extractor.rb, line 28</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">process_git_log_into_time</span>(<span class="ruby-identifier">path_to_git_repo</span> = <span class="ruby-string">&quot;./&quot;</span>, <span class="ruby-identifier">path_to_output_file</span> = <span class="ruby-string">&quot;-&quot;</span>, <span class="ruby-identifier">project_name</span> = <span class="ruby-string">&quot;&quot;</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-string">&quot;-&quot;</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">path_to_output_file</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Output path not yet implemented. Use a Unix pipe to write to your desired file. For example: git_time_extractor ./ &gt; my_result.csv\n&quot;</span> 
+  <span class="ruby-keyword">end</span> 
+  
+  <span class="ruby-comment"># Open the GIT Repository for Reading</span>
+  <span class="ruby-identifier">logger</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">STDOUT</span>)
+  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">level</span> = <span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">WARN</span>
+  <span class="ruby-identifier">g</span> = <span class="ruby-constant">Git</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path_to_git_repo</span>, <span class="ruby-value">:log</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">logger</span>)
+  <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">g</span>.<span class="ruby-identifier">log</span>(<span class="ruby-value">1000</span>)
+  <span class="ruby-identifier">log_entries</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">entries</span>.<span class="ruby-identifier">reverse</span>
+  <span class="ruby-identifier">worklog</span> = {}
+
+  <span class="ruby-comment"># Go through the GIT commit records and construct the time</span>
+  <span class="ruby-identifier">log_entries</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">commit</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">author_date</span> = <span class="ruby-identifier">commit</span>.<span class="ruby-identifier">author_date</span>.<span class="ruby-identifier">to_date</span>
+    <span class="ruby-identifier">daylog</span> = <span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">author_date</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">OpenStruct</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:date</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">author_date</span>, <span class="ruby-value">:duration</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)
+    <span class="ruby-identifier">daylog</span>.<span class="ruby-identifier">author</span> = <span class="ruby-identifier">commit</span>.<span class="ruby-identifier">author</span>
+    <span class="ruby-identifier">daylog</span>.<span class="ruby-identifier">message</span> = <span class="ruby-node">&quot;#{daylog.message} --- #{commit.message}&quot;</span>
+    <span class="ruby-identifier">daylog</span>.<span class="ruby-identifier">duration</span> = <span class="ruby-identifier">daylog</span>.<span class="ruby-identifier">duration</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">calc_duration_in_minutes</span>(<span class="ruby-identifier">log_entries</span>, <span class="ruby-identifier">index</span>)
+    <span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">author_date</span>] = <span class="ruby-identifier">daylog</span>
+  <span class="ruby-keyword">end</span> <span class="ruby-comment"># log_entries.each_with_index</span>
+
+  <span class="ruby-comment"># Print the header row for the CSV</span>
+  <span class="ruby-identifier">puts</span> [
+      <span class="ruby-string">'Date'</span>,
+      <span class="ruby-string">'Minutes'</span>,
+      <span class="ruby-string">'Hours'</span>,
+      <span class="ruby-string">'Person'</span>,
+      <span class="ruby-string">'Email'</span>,
+      <span class="ruby-string">'Project'</span>,
+      <span class="ruby-string">'Notes'</span>,
+      <span class="ruby-string">'Week Number'</span>,
+      <span class="ruby-string">'Year'</span>
+      ].<span class="ruby-identifier">to_csv</span>
+
+  <span class="ruby-comment"># Go through the work log  </span>
+  <span class="ruby-identifier">worklog</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">date</span><span class="ruby-operator">|</span>
+
+      <span class="ruby-identifier">start_time</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">date</span>.<span class="ruby-identifier">to_s</span>)
+      <span class="ruby-identifier">duration_in_seconds</span> = (<span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">date</span>].<span class="ruby-identifier">duration</span>.<span class="ruby-identifier">to_f</span> * <span class="ruby-value">60.0</span>).<span class="ruby-identifier">round</span>(<span class="ruby-value">0</span>)
+      <span class="ruby-identifier">duration_in_minutes</span> = <span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">date</span>].<span class="ruby-identifier">duration</span>.<span class="ruby-identifier">to_i</span>
+      <span class="ruby-identifier">duration_in_hours</span> = (<span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">date</span>].<span class="ruby-identifier">duration</span> <span class="ruby-operator">/</span> <span class="ruby-value">60.0</span>).<span class="ruby-identifier">round</span>(<span class="ruby-value">1</span>)
+
+      <span class="ruby-identifier">stop_time</span> = <span class="ruby-identifier">start_time</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">duration_in_seconds</span>
+      <span class="ruby-identifier">row</span> = [
+            <span class="ruby-identifier">start_time</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%m/%d/%Y&quot;</span>), 
+            <span class="ruby-identifier">duration_in_minutes</span>,
+            <span class="ruby-identifier">duration_in_hours</span>,
+            <span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">date</span>].<span class="ruby-identifier">author</span>.<span class="ruby-identifier">name</span>,
+            <span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">date</span>].<span class="ruby-identifier">author</span>.<span class="ruby-identifier">email</span>,
+            <span class="ruby-identifier">project_name</span>,
+            <span class="ruby-identifier">worklog</span>[<span class="ruby-identifier">date</span>].<span class="ruby-identifier">message</span>,
+            <span class="ruby-identifier">start_time</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%W&quot;</span>).<span class="ruby-identifier">to_i</span>,
+            <span class="ruby-identifier">start_time</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-string">&quot;%Y&quot;</span>).<span class="ruby-identifier">to_i</span>]
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">row</span>.<span class="ruby-identifier">to_csv</span>
+  <span class="ruby-keyword">end</span> <span class="ruby-comment"># worklog each</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- process_git_log_into_time-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- process_git_log_into_time-method -->
+
+    
+      <div id="method-c-say_hi" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">say_hi</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="say_hi-source">
+            <pre><span class="ruby-comment"># File lib/git_time_extractor.rb, line 106</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">say_hi</span>
+  <span class="ruby-string">&quot;hi&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- say_hi-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- say_hi-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
