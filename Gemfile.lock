@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    git_time_extractor (0.2.0)
+    git_time_extractor (0.2.1)
       git
       logger
 
@@ -12,6 +12,7 @@ GEM
     logger (1.2.8)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES

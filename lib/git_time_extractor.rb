@@ -5,16 +5,21 @@
 # http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. 
 # However, it has been adapted to run without Rails from the command line.
 #
-# Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
+# Portions (C) 2013 Rietta Inc. and licensed under the terms of the BSD license.
 #
 class GitTimeExtractor
-  VERSION = '0.2.1'
+  VERSION = '0.2.2'
   
-  require 'rubygems'
-  require 'ostruct'
-  require 'logger'
-  require 'git'
-  require 'csv'
+  require 'autoload.rb'
+  
+  attr_accessible :path_to_git_repo, :path_to_output_file, :project_name
+  attr_accessible :out
+
+  def initialize(path_to_git_repo = "./", path_to_output_file = "-", project_name = "")
+    self.path_to_git_repo = path_to_git_repo
+    self.path_to_output_file = path_to_output_file
+    self.project_name = project_name
+  end
 
   #
   # Go through the GIT commit log, to compute the elapsed working time of each committing developer, based
@@ -25,12 +30,8 @@ class GitTimeExtractor
   # (3) The more frequent a developer commits to the repository while working, the more accurate the time report will be
   #
   #
-  def self.process_git_log_into_time(path_to_git_repo = "./", path_to_output_file = "-", project_name = "")
-
-    if "-" != path_to_output_file
-      raise "Output path not yet implemented. Use a Unix pipe to write to your desired file. For example: git_time_extractor ./ > my_result.csv\n" 
-    end 
-    
+  def process_git_log_into_time()
+ 
     # Open the GIT Repository for Reading
     logger = Logger.new(STDOUT)
     logger.level = Logger::WARN
@@ -38,6 +39,12 @@ class GitTimeExtractor
     logs = g.log(1000)
     log_entries = logs.entries.reverse
     worklog = {}
+
+    if "-" == path_to_output_file 
+      self.out = STDOUT
+    else
+      self.out = File.new(path_to_output_file, "w")
+    end
 
     # Go through the GIT commit records and construct the time
     log_entries.each_with_index do |commit, index|
@@ -50,7 +57,7 @@ class GitTimeExtractor
     end # log_entries.each_with_index
 
     # Print the header row for the CSV
-    puts [
+    out.puts [
         'Date',
         'Minutes',
         'Hours',
@@ -81,14 +88,15 @@ class GitTimeExtractor
               worklog[date].message,
               start_time.strftime("%W").to_i,
               start_time.strftime("%Y").to_i]
-        puts row.to_csv
+        out.puts row.to_csv
     end # worklog each
 
   end # process_git_log_into_time
 
   # Calculate the duration of work in minutes
-  def self.calc_duration_in_minutes(log_entries, index)
+  def calc_duration_in_minutes(log_entries, index)
     commit = log_entries[index]
+    
     if index > 1
       previous_commit = log_entries[index-1]
       # Default duration in Ruby is in seconds
@@ -102,10 +110,13 @@ class GitTimeExtractor
       # ASSUMPTION: first commit took 1/2 hour
       duration = 30 * 60
     end
+    
     return duration.to_f / 60.0
+  
   end # calc_duration_in_minutes
 
   def self.say_hi
     "hi"
   end
+  
 end # class GitTimeExtractor

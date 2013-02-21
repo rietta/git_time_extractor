@@ -12,26 +12,29 @@
 
   require 'git_time_extractor'
 
+
+  options = {:project => '', :path_to_repo => Dir.pwd, :output_file => '-'}
+  
+  option_parser = OptionParser.new do |opts|
+    opts.on('-p PROJECT', '--project PROJECT') do |project|
+       options[:project] = project
+    end
+    
+    opts.on('-i REPOPATH', '--repo-path REPOPATH') do |repopath|
+       options[:path_to_repo] = repopath
+    end
+    
+    opts.on('-o OUTPUT_CSV', '--out OUTPUT_CSV') do |output_file|
+       options[:output_file] = output_file
+    end
+  end
+  
+  option_parser.parse!
+
   #puts "\n# Arguments #{ARGV.length}\n"
 
   valid_usage = false
 
-  if ARGV.empty?
-    output_file = "-"
-    path_to_repo = Dir.pwd
-    project_name = ""
-    valid_usage = true
-  elsif "-h" == ARGV[0].downcase || "--help" == ARGV[0].downcase
-    # Show help
-  elsif ARGV.length == 2
-    output_file = ARGV.pop
-    path_to_repo = ARGV.pop
-    valid_usage = true
-  elsif ARGV.length == 1
-    output_file = "-"
-    path_to_repo = ARGV.pop 
-    valid_usage = true
-  end
 
   unless valid_usage
     puts "Usage: git_time_extractor PROJECT_NAME [PATH_TO_REPO] [OUTPUT_FILE]"
