@@ -100,7 +100,7 @@ class GitTimeExtractor
               summary.author.email,
               project_name,
               summary.message,
-              summary.pivotal_stories.map(&:inspect).join(', '),
+              summary.pivotal_stories.map(&:inspect).join(';'),
               start_time.strftime("%W").to_i,
               start_time.strftime("%Y").to_i]
         puts row.to_csv
