@@ -42,16 +42,18 @@ class GitTimeExtractor
     # Go through the GIT commit records and construct the time
     log_entries.each_with_index do |commit, index|
       author_date = commit.author_date.to_date
-      daylog = worklog[author_date] || OpenStruct.new(:date => author_date, :duration => 0)
+      daylog = worklog[author_date] || OpenStruct.new(:date => author_date, :duration => 0, :commit_count => 0, :pivotal_stories => [] )
       daylog.author = commit.author
       daylog.message = "#{daylog.message} --- #{commit.message}"
       daylog.duration = daylog.duration + calc_duration_in_minutes(log_entries, index)
+      daylog.commit_count += 1
       worklog[author_date] = daylog
     end # log_entries.each_with_index
 
     # Print the header row for the CSV
     puts [
         'Date',
+        'Git Commits',
         'Minutes',
         'Hours',
         'Person',
@@ -64,21 +66,23 @@ class GitTimeExtractor
 
     # Go through the work log  
     worklog.keys.sort.each do |date|
-
+        summary = worklog[date]
         start_time = DateTime.parse(date.to_s)
-        duration_in_seconds = (worklog[date].duration.to_f * 60.0).round(0)
-        duration_in_minutes = worklog[date].duration.to_i
-        duration_in_hours = (worklog[date].duration / 60.0).round(1)
+        duration_in_seconds = (summary.duration.to_f * 60.0).round(0)
+        duration_in_minutes = summary.duration.to_i
+        duration_in_hours = (summary.duration / 60.0).round(1)
 
         stop_time = start_time + duration_in_seconds
+        
         row = [
-              start_time.strftime("%m/%d/%Y"), 
+              start_time.strftime("%m/%d/%Y"),
+              summary.commit_count,
               duration_in_minutes,
               duration_in_hours,
-              worklog[date].author.name,
-              worklog[date].author.email,
+              summary.author.name,
+              summary.author.email,
               project_name,
-              worklog[date].message,
+              summary.message,
               start_time.strftime("%W").to_i,
               start_time.strftime("%Y").to_i]
         puts row.to_csv
