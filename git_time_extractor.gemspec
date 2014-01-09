@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.license = "BSD"
   s.name = %q{git_time_extractor}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
   s.authors = ["Frank Rietta"]
   s.email = "products@rietta.com"
   s.summary = "Reasonable developer time log extractor that uses a GIT repository's commit log history."
