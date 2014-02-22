@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    git_time_extractor (0.2.3)
+    git_time_extractor (0.3.0)
       git (~> 1.2.6)
       logger (~> 1.2.8)
 
