@@ -1,4 +1,6 @@
-EXTRACT REASONABLE TIME RECORDS FROM A GIT REPOSITORY
+[![Gem Version](https://badge.fury.io/rb/git_time_extractor.png)](http://badge.fury.io/rb/git_time_extractor)
+
+# EXTRACT REASONABLE TIME RECORDS FROM A GIT REPOSITORY
 
 This tool goes through a GIT repository's commit log and prints a CSV dump of per developer, per day working time based on a few assumptions:
 
@@ -6,11 +8,10 @@ This tool goes through a GIT repository's commit log and prints a CSV dump of pe
     - A single commit (or the first commit of the session) is considered to represent 30 minutes of work time
     - The more frequent a developer commits to the repository while working, the more accurate the time report will be
     
-This script is based on previous code published publicly by Sharad at http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. However, it has been adapted to run without Rails from the command line. The portions of the code written by Rietta are licensed under the terms of the BSD license (see section 3 below).
+This script is based on previous code published publicly by *Sharad* at http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. However, it has been adapted to run without Rails from the command line. The portions of the code written by Rietta are licensed under the terms of the BSD license (see section 3 below).
     
------------------------------------------
-1. Prerequisites
------------------------------------------
+
+## 1. Prerequisites
 
 This script is designed to work in Ruby 1.9 from the command line. It does not require Rails, but rather is design to work with pure Ruby and a couple of support gems, namely:
 
@@ -25,19 +26,15 @@ For example, run the following:
 
     gem install git
     
------------------------------------------
-2. Running
------------------------------------------
+## 2. Running
 
     cd /path/to/your/repository
     time_extract.rb > time_log.csv
     
 
------------------------------------------
-3. LICENSE TERMS (BSD License)
------------------------------------------
+## 3. LICENSE TERMS (BSD License)
 
-Copyright (c) 2012 Rietta Inc. All rights reserved.
+Copyright (c) 2012, 2013, 2014 Rietta Inc. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
