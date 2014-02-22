@@ -1,4 +1,4 @@
-require 'rubygems'
+#require 'rubygems'
 require 'ostruct'
 require 'logger'
 require 'git'

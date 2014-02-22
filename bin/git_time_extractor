@@ -10,10 +10,13 @@
   # Adjust path in case called directly and not through gem
   $:.unshift "#{File.expand_path(File.dirname(__FILE__))}/../lib"
 
+  require 'optparse'
   require 'git_time_extractor'
 
 
   options = {:project => '', :path_to_repo => Dir.pwd, :output_file => '-'}
+  
+  valid_usage = false
   
   option_parser = OptionParser.new do |opts|
     opts.on('-p PROJECT', '--project PROJECT') do |project|
@@ -31,18 +34,11 @@
   
   option_parser.parse!
 
-  #puts "\n# Arguments #{ARGV.length}\n"
-
-  valid_usage = false
-
-
-  unless valid_usage
-    puts "Usage: git_time_extractor PROJECT_NAME [PATH_TO_REPO] [OUTPUT_FILE]"
-    puts "Copyright 2012 Rietta Inc.  http://www.rietta.com"
+  if options[:project] && options[:path_to_repo] && options[:output_file]
+    extractor = GitTimeExtractor.new(options)
+  else
+    puts "Usage: git_time_extractor -p PROJECT_NAME -i [PATH_TO_REPO] -o [OUTPUT_FILE]"
+    puts "Copyright 2014 Rietta Inc. http://www.rietta.com"
     exit 0
-  else 
-    #path_to_repo = File.expand_path(File.dirname(path_to_repo)) if nil != path_to_repo && "" != path_to_repo
-    #puts "\n\nGit Repo Path: #{path_to_repo}\nOutput: #{output_file}\n"
-    GitTimeExtractor.process_git_log_into_time(path_to_repo, output_file)
   end
 
