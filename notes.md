@@ -1,0 +1,3 @@
+```
+extractor = GitTimeExtractor.new()
+```
