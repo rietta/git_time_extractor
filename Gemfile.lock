@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    git_time_extractor (0.2.1)
-      git
-      logger
+    git_time_extractor (0.2.3)
+      git (~> 1.2.6)
+      logger (~> 1.2.8)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    git (1.2.5)
+    git (1.2.6)
     logger (1.2.8)
 
 PLATFORMS
