@@ -1,36 +1,36 @@
 #
 # Extract Reasonable Developer Time Records from a GIT Repository's Commit Log
 #
-# This is inspired by a RAKE task publicly posted by Sharad at 
-# http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. 
+# This is inspired by a RAKE task publicly posted by Sharad at
+# http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/.
 # However, it has been adapted to run without Rails from the command line.
 #
-# Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
+# Portions (C) 2014 Rietta Inc. and licensed under the terms of the BSD license.
 #
 class GitTimeExtractor
   VERSION = '0.2.2'
-  
+
   require 'ostruct'
   require 'logger'
   require 'git'
   require 'csv'
   require 'set'
-  
-  
+
+
   attr_accessor :options, :summary
-  
+
   def initialize(opts = {project: "Untitled", path_to_repo: "./", output_file: "-"})
     @options = opts
   end
-  
+
   def path_to_git_repo
     options[:path_to_repo]
   end
-  
+
   def path_to_output_file
     options[:output_file]
   end
-  
+
   def project_name
     options[:project]
   end
@@ -45,15 +45,12 @@ class GitTimeExtractor
   #
   #
   def process_git_log_into_time
-
-    
-
     # if "-" != path_to_output_file
-    #       raise "Output path not yet implemented. Use a Unix pipe to write to your desired file. For example: git_time_extractor ./ > my_result.csv\n" 
-    #     end 
+    #       raise "Output path not yet implemented. Use a Unix pipe to write to your desired file. For example: git_time_extractor ./ > my_result.csv\n"
+    #     end
 
-    rows = Array.new 
-    
+    rows = Array.new
+
     # Open the GIT Repository for Reading
     logger = Logger.new(STDOUT)
     logger.level = Logger::WARN
@@ -69,10 +66,10 @@ class GitTimeExtractor
       daylog.author = commit.author
       daylog.message = "#{daylog.message} --- #{commit.message}"
       daylog.duration = daylog.duration + calc_duration_in_minutes(log_entries, index)
-      
+
       # The git commit count
       daylog.commit_count += 1
-      
+
       # Pivotal Stories
       stories = pivotal_ids(commit.message)
       if stories
@@ -81,8 +78,8 @@ class GitTimeExtractor
           daylog.pivotal_stories << sid
         end
       end
-      
-      
+
+
       worklog[author_date] = daylog
     end # log_entries.each_with_index
 
@@ -102,7 +99,7 @@ class GitTimeExtractor
         'Year'
       ]
 
-    # Go through the work log  
+    # Go through the work log
     worklog.keys.sort.each do |date|
         summary = worklog[date]
         start_time = DateTime.parse(date.to_s)
@@ -111,7 +108,7 @@ class GitTimeExtractor
         duration_in_hours = (summary.duration / 60.0).round(1)
 
         stop_time = start_time + duration_in_seconds
-        
+
         row = [
               start_time.strftime("%m/%d/%Y"),
               summary.commit_count,
@@ -125,14 +122,14 @@ class GitTimeExtractor
               summary.pivotal_stories.map(&:inspect).join('; '),
               start_time.strftime("%W").to_i,
               start_time.strftime("%Y").to_i]
-        
+
         rows << row
     end # worklog each
 
     @summary = rows
     rows
   end # process_git_log_into_time
-  
+
   # Calculate the duration of work in minutes
   def calc_duration_in_minutes(log_entries, index)
     commit = log_entries[index]
@@ -140,7 +137,7 @@ class GitTimeExtractor
       previous_commit = log_entries[index-1]
       # Default duration in Ruby is in seconds
       duration = commit.author_date - previous_commit.author_date
-      
+
       # ASSUMPTION: if the gap between 2 commits is more than 3 hours, reduce it to 1/2 hour
       # Also, if the time is negative then this is usually a merge operation.  Assume the developer spent
       # 30 minutes reviewing it
@@ -155,7 +152,7 @@ class GitTimeExtractor
   def say_hi
     "hi"
   end
-  
+
   #  --- [#62749778] New Email Page --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- [#62749778] Roughed out email form. --- Added delete Attachment functionality --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- [#62749778] Refactored controller to be plural. --- [#62749778] Added to the Email model. --- [62749778] The email this report view formatting. --- [#62749778] Breadcrumbs in the navigation. --- [#62749778] The Emails controller routes. --- The report list is now sorted with newest first - and it shows how long ago that the change was made. --- [#62749778] The share link is bold. --- [#62749778] Recipient parsing and form fields --- [#62749778] List of emails that have received it. --- [#62749778] The email form will validate that at least one email is provided. --- [#62749778] Send Roof Report AJAX form. --- [#62749778] Default messages and the mailer --- [Finishes #62749778] The emails are sent! --- removed delete from show --- added txt and xpf to permitted file types --- Attachments can only be deleted by the owner of the roof report. --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- The test server is using production. --- Returns all recommended options across all sections with roof_report.recommedations --- patial commit --- Finished summary section --- Added caps to permitted --- added to_s to inspection --- E-mail spec is not focused at the moment. --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- fixed a few bugs --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- Disable ajax save. --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development
   # s = "[#62749778] [#62749778] [#6274977] [#1] [#231]"
   # m = s.scan /\[[A-Za-z ]{0,20}#[0-9]{1,20}\]/
