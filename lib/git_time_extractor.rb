@@ -19,7 +19,9 @@ class GitTimeExtractor
 
   attr_accessor :options, :summary
 
-  def initialize(opts = {project: "Untitled", path_to_repo: "./", output_file: "-"})
+  def initialize(opts = {project: "Untitled", path_to_repo: "./", output_file: "-",
+                         initial_effort_mins: 30, merge_effort_mins: 30, session_duration_hrs: 3,
+                         max_commits: 1000})
     @options = opts
   end
 
@@ -55,7 +57,7 @@ class GitTimeExtractor
     logger = Logger.new(STDOUT)
     logger.level = Logger::WARN
     g = Git.open(path_to_git_repo, :log => logger)
-    logs = g.log(1000)
+    logs = g.log(@options[:max_commits])
     log_entries = logs.entries.reverse
     worklog = {}
 
@@ -107,8 +109,6 @@ class GitTimeExtractor
         duration_in_minutes = summary.duration.to_i
         duration_in_hours = (summary.duration / 60.0).round(1)
 
-        stop_time = start_time + duration_in_seconds
-
         row = [
               start_time.strftime("%m/%d/%Y"),
               summary.commit_count,
@@ -135,18 +135,23 @@ class GitTimeExtractor
     commit = log_entries[index]
     if index > 1
       previous_commit = log_entries[index-1]
-      # Default duration in Ruby is in seconds
-      duration = commit.author_date - previous_commit.author_date
+      # Default duration in Ruby is in seconds, so lets make it minutes
+      duration = (commit.author_date - previous_commit.author_date) / 60
 
-      # ASSUMPTION: if the gap between 2 commits is more than 3 hours, reduce it to 1/2 hour
-      # Also, if the time is negative then this is usually a merge operation.  Assume the developer spent
-      # 30 minutes reviewing it
-      duration = 30 * 60 if duration < 0 || duration > 3 * 3600
+      #initial_effort_mins: 30, session_duration_hrs: 3, max_commits: 1000
+
+      if duration > @options[:session_duration_hrs].to_f * 60
+        # first commit in this session
+        duration = @options[:initial_effort_mins].to_f
+      elsif duration < 0
+        # probably a merge.
+        duration = @options[:merge_effort_mins].to_f
+      end
     else
-      # ASSUMPTION: first commit took 1/2 hour
-      duration = 30 * 60
+      # first commit ever
+      duration = @options[:initial_effort_mins].to_f
     end
-    return duration.to_f / 60.0
+    return duration.to_f
   end # calc_duration_in_minutes
 
   def say_hi
