@@ -8,7 +8,7 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    git (1.2.6)
+    git (1.2.8)
     logger (1.2.8)
 
 PLATFORMS
