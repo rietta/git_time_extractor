@@ -22,30 +22,31 @@ class Author
 
     # Go through the work log
     @worklog.keys.sort.each do |date|
-        summary = @worklog[date]
-        start_time = DateTime.parse(date.to_s)
-        duration_in_seconds = (summary.duration.to_f * 60.0).round(0)
-        duration_in_minutes = summary.duration.to_i
-        duration_in_hours   = (summary.duration / 60.0).round(1)
-
-        row = [
-                  start_time.strftime("%m/%d/%Y"),
-                  summary.commit_count,
-                  summary.pivotal_stories.count,
-                  duration_in_minutes,
-                  duration_in_hours,
-                  summary.author.name,
-                  summary.author.email,
-                  project_name,
-                  summary.message,
-                  summary.pivotal_stories.map(&:inspect).join('; '),
-                  start_time.strftime("%W").to_i,
-                  start_time.strftime("%Y").to_i
-                ]
-        #puts "DEBUG: #{row}"
-        @rows << row
+        @rows << summarize(@worklog[date], date)
     end # worklog each
   end # tabulate_days
+
+  def summarize(summary, date)
+    start_time = DateTime.parse(date.to_s)
+    duration_in_seconds = (summary.duration.to_f * 60.0).round(0)
+    duration_in_minutes = summary.duration.to_i
+    duration_in_hours   = (summary.duration / 60.0).round(1)
+
+    return [
+      start_time.strftime("%m/%d/%Y"),
+      summary.commit_count,
+      summary.pivotal_stories.count,
+      duration_in_minutes,
+      duration_in_hours,
+      summary.author.name,
+      summary.author.email,
+      project_name,
+      summary.message,
+      summary.pivotal_stories.map(&:inspect).join('; '),
+      start_time.strftime("%W").to_i,
+      start_time.strftime("%Y").to_i
+    ]
+  end # summarize
 
   def roll_up_to_days(commit, index)
     # Get the appropriate worklog
