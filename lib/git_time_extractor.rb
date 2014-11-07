@@ -61,11 +61,17 @@ class GitTimeExtractor
        @authors_hash[key].add_commit(commit)
     end # log_entries.each_with_index
 
-    #puts @authors_hash
-    @authors_hash.each do |key, value|
-      value.tabulate_days
-      @authors << value
+    if @authors_hash
+      @authors_hash.each do |key, value|
+        if value
+          value.tabulate_days
+          @authors << value
+          #puts "DEBUG: Looking at #{key}, #{value}, with #{value.rows.count} commits"
+        end
+      end
     end
+
+    #puts "DEBUG: #{@authors.count} authors"
 
     return @authors
   end # distribute_entries_to_authors
@@ -74,9 +80,11 @@ class GitTimeExtractor
     rows = Array.new
     rows << header_row_template()
     @authors.each do |author|
-      rows << author.rows
+      author.rows.each do |author_row|
+        rows << author_row
+      end
     end
-    return rows.flatten
+    return rows
   end
 
   #
@@ -89,13 +97,8 @@ class GitTimeExtractor
   #
   #
   def process_git_log_into_time
-
     distribute_entries_to_authors( load_git_log_entries( path_to_git_repo ) )
-
-    # Print the header row for the CSV
-    prepare_rows_for_csv.each do |row|
-      puts row.to_csv
-    end
+    return prepare_rows_for_csv
   end # process_git_log_into_time
 
 

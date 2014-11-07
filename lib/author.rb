@@ -28,7 +28,7 @@ class Author
         duration_in_minutes = summary.duration.to_i
         duration_in_hours   = (summary.duration / 60.0).round(1)
 
-        @rows << [
+        row = [
                   start_time.strftime("%m/%d/%Y"),
                   summary.commit_count,
                   summary.pivotal_stories.count,
@@ -42,7 +42,8 @@ class Author
                   start_time.strftime("%W").to_i,
                   start_time.strftime("%Y").to_i
                 ]
-
+        #puts "DEBUG: #{row}"
+        @rows << row
     end # worklog each
   end # tabulate_days
 
@@ -50,16 +51,16 @@ class Author
     # Get the appropriate worklog
     author_date = commit.author_date.to_date
 
-    puts "Reading #{author_date} from #{commit.author.email}"
+    #puts "DEBUG: Reading #{commit} #{author_date} from #{commit.author.email}"
     daylog = get_or_create_new_daylog(author_date)
     @worklog[author_date] = process_day_log(commit, index, daylog)
   end # sample
 
   def get_or_create_new_daylog(author_date)
     if @worklog[author_date]
-      @worklog[author_date]
+      return @worklog[author_date]
     else
-      OpenStruct.new(
+      return OpenStruct.new(
                       :date => author_date,
                       :duration => 0,
                       :commit_count => 0,
@@ -73,6 +74,7 @@ class Author
   end
 
   def process_day_log(commit, index, daylog)
+    #puts "DEBUG: Processing #{commit} - #{commit.author}"
     daylog.author = commit.author
     daylog.message = "#{daylog.message} --- #{commit.message}"
     daylog.duration = daylog.duration + calc_duration_in_minutes(@commits, index)
@@ -114,5 +116,9 @@ class Author
     end
     return duration.to_f
   end # calc_duration_in_minutes
+
+  def project_name
+    @options[:project]
+  end
 
 end # class
