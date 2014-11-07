@@ -10,18 +10,20 @@
 class GitTimeExtractor
   VERSION = '0.2.2'
 
-  require 'ostruct'
-  require 'logger'
-  require 'git'
-  require 'csv'
+  require 'autoload'
   require 'set'
-
 
   attr_accessor :options, :summary
 
-  def initialize(opts = {project: "Untitled", path_to_repo: "./", output_file: "-",
-                         initial_effort_mins: 30, merge_effort_mins: 30, session_duration_hrs: 3,
-                         max_commits: 1000})
+  def initialize( opts = {
+                          project: "Untitled",
+                          path_to_repo: "./",
+                          output_file: "-",
+                          initial_effort_mins: 30,
+                          merge_effort_mins: 30,
+                          session_duration_hrs: 3,
+                          max_commits: 1000
+                        } )
     @options = opts
   end
 
@@ -78,9 +80,8 @@ class GitTimeExtractor
         # It's a set, so each story only gets added once per day
         stories.each do |sid|
           daylog.pivotal_stories << sid
-        end
-      end
-
+        end # each
+      end # if stories
 
       worklog[author_date] = daylog
     end # log_entries.each_with_index

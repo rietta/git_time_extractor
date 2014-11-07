@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 # Extract Reasonable Developer Time Records from a GIT Repository's Commit Log
 #
-# This is inspired by a RAKE task publicly posted by Sharad at 
-# http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. 
+# This is inspired by a RAKE task publicly posted by Sharad at
+# http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/.
 # However, it has been adapted to run without Rails from the command line.
 #
 # Portions (C) 2012 Rietta Inc. and licensed under the terms of the BSD license.
@@ -22,18 +22,18 @@
               :merge_effort_mins => 30,
               :session_duration_hrs => 3
   }
-  
+
   valid_usage = false
-  
+
   option_parser = OptionParser.new do |opts|
     opts.on('-p PROJECT', '--project PROJECT') do |project|
        options[:project] = project
     end
-    
+
     opts.on('-i REPOPATH', '--repo-path REPOPATH') do |repopath|
        options[:path_to_repo] = repopath
     end
-    
+
     opts.on('-o OUTPUT_CSV', '--out OUTPUT_CSV') do |output_file|
        options[:output_file] = output_file
     end
@@ -58,7 +58,7 @@
       options[:session_duration_hrs] = session_duration
     end
   end
-  
+
   option_parser.parse!
 
   if options[:project] && options[:path_to_repo] && options[:output_file]
@@ -70,11 +70,11 @@
       end
     else
       puts 'Output to file not implemented yet'
-    end
+    end # options
 
   else
     puts 'Usage: git_time_extractor -p PROJECT_NAME -i [PATH_TO_REPO] -o [OUTPUT_FILE] -c [MAX_COMMITS] -e [INITIAL_EFFORT_MINS] -m [MERGE_EFFORT_MINS] -s [SESSION_DURATION_HRS]'
     puts 'Copyright 2014 Rietta Inc. http://www.rietta.com'
     exit 0
-  end
+  end # options
 
