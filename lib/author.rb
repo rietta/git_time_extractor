@@ -32,7 +32,23 @@ class Author
     duration_in_minutes = summary.duration.to_i
     duration_in_hours   = (summary.duration / 60.0).round(1)
 
-    return [
+    return summarize_helper(
+                              start_time,
+                              duration_in_seconds,
+                              duration_in_minutes,
+                              duration_in_hours,
+                              summary
+                           )
+  end # summarize
+
+  def summarize_helper(
+                        start_time,
+                        duration_in_seconds,
+                        duration_in_minutes,
+                        duration_in_hours,
+                        summary
+                      )
+    [
       start_time.strftime("%m/%d/%Y"),
       summary.commit_count,
       summary.pivotal_stories.count,
@@ -46,7 +62,7 @@ class Author
       start_time.strftime("%W").to_i,
       start_time.strftime("%Y").to_i
     ]
-  end # summarize
+  end
 
   def roll_up_to_days(commit, index)
     # Get the appropriate worklog
