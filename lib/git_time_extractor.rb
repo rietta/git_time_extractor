@@ -8,7 +8,7 @@
 # Portions (C) 2014 Rietta Inc. and licensed under the terms of the BSD license.
 #
 class GitTimeExtractor
-  VERSION = '0.2.2'
+  VERSION = '0.2.3'
 
   require 'autoload'
   require 'set'
@@ -95,21 +95,22 @@ class GitTimeExtractor
         start_time = DateTime.parse(date.to_s)
         duration_in_seconds = (summary.duration.to_f * 60.0).round(0)
         duration_in_minutes = summary.duration.to_i
-        duration_in_hours = (summary.duration / 60.0).round(1)
+        duration_in_hours   = (summary.duration / 60.0).round(1)
 
         row = [
-              start_time.strftime("%m/%d/%Y"),
-              summary.commit_count,
-              summary.pivotal_stories.count,
-              duration_in_minutes,
-              duration_in_hours,
-              summary.author.name,
-              summary.author.email,
-              project_name,
-              summary.message,
-              summary.pivotal_stories.map(&:inspect).join('; '),
-              start_time.strftime("%W").to_i,
-              start_time.strftime("%Y").to_i]
+                start_time.strftime("%m/%d/%Y"),
+                summary.commit_count,
+                summary.pivotal_stories.count,
+                duration_in_minutes,
+                duration_in_hours,
+                summary.author.name,
+                summary.author.email,
+                project_name,
+                summary.message,
+                summary.pivotal_stories.map(&:inspect).join('; '),
+                start_time.strftime("%W").to_i,
+                start_time.strftime("%Y").to_i
+              ]
 
         rows << row
     end # worklog each
@@ -127,7 +128,6 @@ class GitTimeExtractor
       duration = (commit.author_date - previous_commit.author_date) / 60
 
       #initial_effort_mins: 30, session_duration_hrs: 3, max_commits: 1000
-
       if duration > @options[:session_duration_hrs].to_f * 60
         # first commit in this session
         duration = @options[:initial_effort_mins].to_f
