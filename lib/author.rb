@@ -62,7 +62,7 @@ class Author
       start_time.strftime("%W").to_i,
       start_time.strftime("%Y").to_i
     ]
-  end
+  end # summarize_helper
 
   def roll_up_to_days(commit, index)
     # Get the appropriate worklog
@@ -71,7 +71,7 @@ class Author
     #puts "DEBUG: Reading #{commit} #{author_date} from #{commit.author.email}"
     daylog = get_or_create_new_daylog(author_date)
     @worklog[author_date] = process_day_log(commit, index, daylog)
-  end # sample
+  end # roll_up_to_days
 
   def get_or_create_new_daylog(author_date)
     if @worklog[author_date]
@@ -113,26 +113,31 @@ class Author
 
   # Calculate the duration of work in minutes
   def calc_duration_in_minutes(log_entries, index)
-    commit = log_entries[index]
     if index > 1
-      previous_commit = log_entries[index-1]
-      # Default duration in Ruby is in seconds, so lets make it minutes
-      duration = (commit.author_date - previous_commit.author_date) / 60
-
-      #initial_effort_mins: 30, session_duration_hrs: 3, max_commits: 1000
-      if duration > @options[:session_duration_hrs].to_f * 60
-        # first commit in this session
-        duration = @options[:initial_effort_mins].to_f
-      elsif duration < 0
-        # probably a merge.
-        duration = @options[:merge_effort_mins].to_f
-      end
+      # Compute the time between this and this previous entry
+      return compute_commit_time_duration(log_entries[index], log_entries[index - 1])
     else
-      # first commit ever
-      duration = @options[:initial_effort_mins].to_f
+      # This is the first commit in the log
+      return @options[:initial_effort_mins].to_f
     end
-    return duration.to_f
+    return duration
   end # calc_duration_in_minutes
+
+  def compute_commit_time_duration(commit, previous_commit)
+    # Default duration in Ruby is in seconds, so lets make it minutes
+    duration = (commit.author_date - previous_commit.author_date) / 60.0
+
+    #initial_effort_mins: 30, session_duration_hrs: 3, max_commits: 1000
+    if duration > @options[:session_duration_hrs].to_f * 60.0
+      # first commit in this session
+      duration = @options[:initial_effort_mins].to_f
+    elsif duration < 0
+      # probably a merge.
+      duration = @options[:merge_effort_mins].to_f
+    end
+
+    return duration.to_f
+  end # compute_commit_time_duration
 
   def project_name
     @options[:project]

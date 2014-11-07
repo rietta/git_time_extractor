@@ -17,7 +17,7 @@
   options = { :project => '',
               :path_to_repo => Dir.pwd,
               :output_file => '-',
-              :max_commits => 1000,
+              :max_commits => 10000,
               :initial_effort_mins => 30,
               :merge_effort_mins => 30,
               :session_duration_hrs => 3
@@ -66,7 +66,7 @@
     rows = extractor.process_git_log_into_time
     if options[:output_file] == '-'
       rows.each do |row|
-        puts row.map!{|value| '"' + value.to_s.gsub('"', '\"').gsub("\n", '\n') + '"'}.join(',')
+        puts row.map!{|value| value.to_s.gsub('"', '\"').gsub("\n", '\n') }.to_csv
       end
     else
       puts 'Output to file not implemented yet'
