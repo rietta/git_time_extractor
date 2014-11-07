@@ -13,7 +13,7 @@ class GitTimeExtractor
   require 'autoload'
   require 'set'
 
-  attr_accessor :options, :summary
+  attr_accessor :options, :summary, :authors
 
   def initialize( opts = {
                           project: "Untitled",
@@ -25,6 +25,7 @@ class GitTimeExtractor
                           max_commits: 1000
                         } )
     @options = opts
+    @authors = Hash.new
   end
 
   def path_to_git_repo
@@ -39,34 +40,32 @@ class GitTimeExtractor
     options[:project]
   end
 
-  #
-  # Go through the GIT commit log, to compute the elapsed working time of each committing developer, based
-  # on a few assumptions:
-  #
-  # (1) A series of commits within a 3 hour window are part of the same development session
-  # (2) A single commit (or the first commit of the session) is considered to represent 30 minutes of work time
-  # (3) The more frequent a developer commits to the repository while working, the more accurate the time report will be
-  #
-  #
-  def process_git_log_into_time
-    # if "-" != path_to_output_file
-    #       raise "Output path not yet implemented. Use a Unix pipe to write to your desired file. For example: git_time_extractor ./ > my_result.csv\n"
-    #     end
-
-    rows = Array.new
-
+  def load_git_log_entries(path_to_git_repo)
     # Open the GIT Repository for Reading
     logger = Logger.new(STDOUT)
     logger.level = Logger::WARN
     g = Git.open(path_to_git_repo, :log => logger)
     logs = g.log(@options[:max_commits])
-    log_entries = logs.entries.reverse
-    worklog = {}
+    return logs.entries.reverse
+  end
 
+  def scan_log_entries(log_entries)
+    worklog = Hash.new
     # Go through the GIT commit records and construct the time
     log_entries.each_with_index do |commit, index|
       author_date = commit.author_date.to_date
-      daylog = worklog[author_date] || OpenStruct.new(:date => author_date, :duration => 0, :commit_count => 0, :pivotal_stories => Set.new )
+
+      if worklog[author_date]
+        daylog = worklog[author_date]
+      else
+        daylog = OpenStruct.new(
+                                  :date => author_date,
+                                  :duration => 0,
+                                  :commit_count => 0,
+                                  :pivotal_stories => Set.new
+                                )
+      end # if
+
       daylog.author = commit.author
       daylog.message = "#{daylog.message} --- #{commit.message}"
       daylog.duration = daylog.duration + calc_duration_in_minutes(log_entries, index)
@@ -83,8 +82,26 @@ class GitTimeExtractor
         end # each
       end # if stories
 
+      puts "Reading #{author_date} from #{commit.author.email}"
       worklog[author_date] = daylog
     end # log_entries.each_with_index
+    return worklog
+  end # scan_log_entries
+
+  #
+  # Go through the GIT commit log, to compute the elapsed working time of each committing developer, based
+  # on a few assumptions:
+  #
+  # (1) A series of commits within a 3 hour window are part of the same development session
+  # (2) A single commit (or the first commit of the session) is considered to represent 30 minutes of work time
+  # (3) The more frequent a developer commits to the repository while working, the more accurate the time report will be
+  #
+  #
+  def process_git_log_into_time
+    rows = Array.new
+
+    log_entries = load_git_log_entries(path_to_git_repo)
+    worklog = scan_log_entries(log_entries)
 
     # Print the header row for the CSV
     rows << header_row_template()
@@ -146,22 +163,9 @@ class GitTimeExtractor
     "hi"
   end
 
-  #  --- [#62749778] New Email Page --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- [#62749778] Roughed out email form. --- Added delete Attachment functionality --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- [#62749778] Refactored controller to be plural. --- [#62749778] Added to the Email model. --- [62749778] The email this report view formatting. --- [#62749778] Breadcrumbs in the navigation. --- [#62749778] The Emails controller routes. --- The report list is now sorted with newest first - and it shows how long ago that the change was made. --- [#62749778] The share link is bold. --- [#62749778] Recipient parsing and form fields --- [#62749778] List of emails that have received it. --- [#62749778] The email form will validate that at least one email is provided. --- [#62749778] Send Roof Report AJAX form. --- [#62749778] Default messages and the mailer --- [Finishes #62749778] The emails are sent! --- removed delete from show --- added txt and xpf to permitted file types --- Attachments can only be deleted by the owner of the roof report. --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- The test server is using production. --- Returns all recommended options across all sections with roof_report.recommedations --- patial commit --- Finished summary section --- Added caps to permitted --- added to_s to inspection --- E-mail spec is not focused at the moment. --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- fixed a few bugs --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development --- Disable ajax save. --- Merge branch 'development' of bitbucket.org:rietta/roofregistry-web into development
-  # s = "[#62749778] [#62749778] [#6274977] [#1] [#231]"
-  # m = s.scan /\[[A-Za-z ]{0,20}#[0-9]{1,20}\]/
+
   def pivotal_ids(text)
-    stories = Array.new
-    # Extract the unique ids between brackets
-    if text
-      candidates = text.scan /\[[A-Za-z \t]{0,20}#[0-9]{1,35}[ \t]{0,5}\]/
-      if candidates
-        candidates.uniq.each do |story|
-          story_num = story.match(/[0-9]{1,35}/).to_s.to_i
-          stories << story_num if story_num > 0
-        end
-      end
-    end
-    stories.sort
+    ::PivotalIdsExtractor.new(text).stories
   end
 
   #####################################
