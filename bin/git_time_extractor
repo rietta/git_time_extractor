@@ -74,7 +74,7 @@
 
   else
     puts 'Usage: git_time_extractor -p PROJECT_NAME -i [PATH_TO_REPO] -o [OUTPUT_FILE] -c [MAX_COMMITS] -e [INITIAL_EFFORT_MINS] -m [MERGE_EFFORT_MINS] -s [SESSION_DURATION_HRS]'
-    puts 'Copyright 2014 Rietta Inc. http://www.rietta.com'
+    puts 'Copyright 2014 Rietta Inc. https://rietta.com'
     exit 0
   end # options
 
