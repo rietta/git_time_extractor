@@ -159,11 +159,6 @@ class GitTimeExtractor
     return duration.to_f
   end # calc_duration_in_minutes
 
-  def say_hi
-    "hi"
-  end
-
-
   def pivotal_ids(text)
     ::PivotalIdsExtractor.new(text).stories
   end
