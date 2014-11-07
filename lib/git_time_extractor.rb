@@ -87,20 +87,7 @@ class GitTimeExtractor
     end # log_entries.each_with_index
 
     # Print the header row for the CSV
-    rows << [
-        'Date',
-        'Git Commits Count',
-        'Pivotal Stories Count',
-        'Minutes',
-        'Hours',
-        'Person',
-        'Email',
-        'Project',
-        'Notes',
-        'Pivotal Stories',
-        'Week Number',
-        'Year'
-      ]
+    rows << header_row_template()
 
     # Go through the work log
     worklog.keys.sort.each do |date|
@@ -176,4 +163,25 @@ class GitTimeExtractor
     end
     stories.sort
   end
+
+  #####################################
+  private
+
+  def header_row_template
+    [
+      'Date',
+      'Git Commits Count',
+      'Pivotal Stories Count',
+      'Minutes',
+      'Hours',
+      'Person',
+      'Email',
+      'Project',
+      'Notes',
+      'Pivotal Stories',
+      'Week Number',
+      'Year'
+    ]
+  end # header_row_template
+
 end # class GitTimeExtractor
