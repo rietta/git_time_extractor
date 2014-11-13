@@ -29,8 +29,9 @@ Usage: git_time_extractor [options]
         --session-duration
 ```
 ### Most basic usage
-cd /path/to/your/repository
-git_time_extractor > time_log.csv
+
+- `cd /path/to/your/repository`
+- `git_time_extractor > time_log.csv`
 
 ## 2. Analysis
 
