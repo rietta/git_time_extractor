@@ -11,6 +11,6 @@ Gem::Specification.new do |s|
   s.files = ["bin/git_time_extractor", "readme.md", "History.txt"] + Dir["lib/**/*"]
   s.bindir = "bin"
   s.executables = ["git_time_extractor"]
-  s.add_dependency "git", "~>1.2.6"
-  s.add_dependency "logger", "~>1.2.8"
+  s.add_dependency "git", "~>1.2"
+  s.add_dependency "logger", "~>1.2"
 end
