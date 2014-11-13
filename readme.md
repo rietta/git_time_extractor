@@ -32,7 +32,9 @@ Usage: git_time_extractor [options]
 cd /path/to/your/repository
 git_time_extractor > time_log.csv
 
+## 2. Analysis
 
+Once the you have used Git Time Extractor to prepare a CSV file, you can perform a lot of different analysis operations using a spreadsheet.  See the [examples spreadsheets](examples/) for some ideas.
 
 ## 3. License Terms (BSD License)
 
