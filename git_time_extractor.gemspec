@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name = %q{git_time_extractor}
   s.version = "0.3.0"
   s.authors = ["Frank Rietta"]
-  s.email = "products@rietta.com"
+  s.email = "hello@rietta.com"
   s.summary = "Reasonable developer time log extractor that uses a GIT repository's commit log history."
   s.description = "Compute the estimated time spent by developers working on code within a GIT repository. Useful for verifying developer time sheets and for tax purposes. See https://github.com/rietta/git_time_extractor/wiki."
   s.homepage = "https://github.com/rietta/git_time_extractor"
