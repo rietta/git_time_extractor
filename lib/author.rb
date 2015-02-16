@@ -22,7 +22,9 @@ class Author
 
     # Go through the work log
     @worklog.keys.sort.each do |date|
+      if date_in_filter_range(date)
         @rows << summarize(@worklog[date], date)
+      end
     end # worklog each
   end # tabulate_days
 
@@ -141,6 +143,14 @@ class Author
 
   def project_name
     @options[:project]
+  end
+
+  def date_in_filter_range(date_to_check)
+    if @options[:filter_by_year] and date_to_check
+      date_to_check.strftime("%Y").to_i == @options[:filter_by_year]
+    else
+      true
+    end
   end
 
 end # class

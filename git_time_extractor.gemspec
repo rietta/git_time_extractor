@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
   s.license = "BSD"
   s.name = %q{git_time_extractor}
-  s.version = "0.3.0"
+  s.version = "0.3.1"
   s.authors = ["Frank Rietta"]
   s.email = "hello@rietta.com"
   s.summary = "Reasonable developer time log extractor that uses a GIT repository's commit log history."

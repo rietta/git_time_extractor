@@ -22,6 +22,7 @@ Usage: git_time_extractor [options]
     -i, --repo-path REPOPATH
     -o, --out OUTPUT_CSV
     -c, --max-commits MAX_COMMITS    Maximum number of commits to read from Git. Default: 10000
+    -y, --year YEAR                  Filter for commits in a given four digit year, such as 2015 or 2014. Default: Records for all years.
     -e INITIAL_EFFORT,               Initial Effort before each commit, in minutes. Default: 30
         --initial-effort
     -m, --merge-effort MERGE_EFFORT  Effort spent merging, in minutes. Default: 30
@@ -33,6 +34,12 @@ Usage: git_time_extractor [options]
 - `cd /path/to/your/repository`
 - `git_time_extractor > time_log.csv`
 
+### Filtering for a specific year
+One basic usage of `git_time_extractor` is to tabulated time spent on a project in a particular year. Using a year filter is a way to restrict the output to just records for days in a given calendar year.
+
+`git_time_extractor -y 2014 -i ~/Projects/GreatOpenSourceWork`
+
+Will scan the git repo in `~/Projects/GreatOpenSourceWork`, reporting only on the days between January 1, 2014, and December 31, 2015.
 ## 2. Analysis
 
 Once the you have used Git Time Extractor to prepare a CSV file, you can perform a lot of different analysis operations using a spreadsheet.  See the [examples spreadsheets](examples/) for some ideas.

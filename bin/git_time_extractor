@@ -20,7 +20,8 @@
               :max_commits => 10000,
               :initial_effort_mins => 30,
               :merge_effort_mins => 30,
-              :session_duration_hrs => 3
+              :session_duration_hrs => 3,
+              :filter_by_year => nil,
   }
 
   valid_usage = false
@@ -41,6 +42,16 @@
     opts.on('-c MAX_COMMITS', '--max-commits MAX_COMMITS',
             'Maximum number of commits to read from Git. Default: ' + options[:max_commits].to_s ) do |max_commits|
       options[:max_commits] = max_commits
+    end
+
+    opts.on('-y YEAR', '--year YEAR',
+      "Filter for commits in a given four digit year, such as #{Date.today.year} or #{Date.today.year - 1}. Default: Records for all years."
+     ) do |filter_by_year|
+      if filter_by_year.to_i > 0
+        options[:filter_by_year] = filter_by_year.to_i
+      else
+        STDERR.puts "Ignoring non-numeric or negative year, #{filter_by_year}"
+      end
     end
 
     opts.on('-e INITIAL_EFFORT', '--initial-effort INITIAL_EFFORT',
