@@ -8,7 +8,7 @@
 # Portions (C) 2014 Rietta Inc. and licensed under the terms of the BSD license.
 #
 class GitTimeExtractor
-  VERSION = '0.2.3'
+  VERSION = '0.3.1'
 
   require 'autoload'
   require 'set'
