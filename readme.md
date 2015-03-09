@@ -10,6 +10,13 @@ This tool goes through a GIT repository's commit log and prints a CSV dump of pe
 
 This script is based on previous code published publicly by *Sharad* at http://www.tatvartha.com/2010/01/generating-time-entry-from-git-log/. However, it has been adapted to run without Rails from the command line. The portions of the code written by Rietta are licensed under the terms of the BSD license (see section 3 below).
 
+## 0. Installing from Ruby Gems
+
+To quickly get started, just run:
+`gem install git_time_extractor`
+
+You can see it at https://rubygems.org/gems/git_time_extractor.
+
 ## 1. Running
 
 ### Usage
