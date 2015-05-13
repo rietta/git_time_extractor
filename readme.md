@@ -66,3 +66,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 - [Kimmo Brunfeldt](https://github.com/kimmobrunfeldt) has written [git-hours](
 https://github.com/kimmobrunfeldt/git-hours), a NodeJS-based clone that was inspired by this `git_time_extractor`.
+
+## 5. What users say
+
+[Jason Fieldman: Theseus 3D (2014)](http://www.fieldman.org/theseus-3d/)
+> git_time_extractor says that there is approximately 120 hours of development time on my repo, from September 19 through October 22. Pretty much all grouped on weekends (and our school’s extended 5-day break). The tool overestimates a bit because it does not compensate for meals or mid-session breaks, but it’s relatively close. So let’s say it’s closer to 90-100 hours – not bad to complete the game, including research and dealing with SceneKit foibles along the way.
