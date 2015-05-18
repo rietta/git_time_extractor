@@ -14,6 +14,25 @@ class Author
     @commits << commit
   end
 
+  def total_commits
+    return @commits.length
+  end
+
+  def total_working_minutes
+    # Go through the work log
+    total = 0
+    @worklog.keys.sort.each do |date|
+      if date_in_filter_range(date)
+        total += @worklog[date].duration.to_i
+      end
+    end # worklog each
+    return total
+  end
+  
+  def total_working_hours
+    return (total_working_minutes() / 60.0).round(1)
+  end
+
   # Then the tabulation is called after the commits are added into this author's list
   def tabulate_days
     @commits.each_with_index do |commit, index|
