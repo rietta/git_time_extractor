@@ -102,6 +102,58 @@ class GitTimeExtractor
   end # process_git_log_into_time
 
 
+  def prepare_rows_for_summary_csv
+    rows = Array.new
+    rows << summary_header_row_template()
+    commits = 0
+    hours = 0
+    authors = Array.new
+    @authors.each do |author|
+      commits += author.total_commits()
+      hours += author.total_working_hours()
+      authors << author.commits[0].author.name + " (" + author.commits[0].author.email + ")"
+    end
+    rows << [
+      hours,
+      commits,
+      authors.join(";")
+    ]
+    return rows
+  end
+
+  # 
+  # create a summary of the computed times
+  #
+  def process_git_log_into_summary
+    distribute_entries_to_authors( load_git_log_entries( path_to_git_repo ) )
+    return prepare_rows_for_summary_csv
+  end # process_git_log_into_time
+
+
+  def prepare_rows_for_author_summary_csv
+    rows = Array.new
+    rows << author_summary_header_row_template()
+    commits = 0
+    hours = 0
+    authors = Array.new
+    @authors.each do |author|
+      rows << [
+        author.total_commits(),
+        author.total_working_hours(),
+        author.commits[0].author.name, 
+        author.commits[0].author.email,
+      ]
+    end
+    return rows
+  end
+
+  # 
+  # create a summary per author
+  #
+  def process_git_log_into_author_summary
+    distribute_entries_to_authors( load_git_log_entries( path_to_git_repo ) )
+    return prepare_rows_for_author_summary_csv
+  end # process_git_log_into_time
 
   #####################################
   private
@@ -122,5 +174,26 @@ class GitTimeExtractor
       'Year'
     ]
   end # header_row_template
+
+  def author_summary_header_row_template
+    [
+      'Total Git Commits Count',
+      'Total Hours',
+      'Person',
+      'Email',
+      # 'From Date',
+      # 'To Date',
+    ]
+  end # summary_header_row_template
+  
+  def summary_header_row_template
+    [
+      # 'From Date',
+      # 'To Date',
+      'Total Git Commits Count',
+      'Total Hours',
+      'Collaborators',
+    ]
+  end # summary_header_row_template
 
 end # class GitTimeExtractor
