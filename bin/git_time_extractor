@@ -22,6 +22,8 @@
               :merge_effort_mins => 30,
               :session_duration_hrs => 3,
               :filter_by_year => nil,
+              :compact => nil,
+              :summary => nil,
   }
 
   valid_usage = false
@@ -68,13 +70,28 @@
             'Session duration, in hours. Default: ' + options[:session_duration_hrs].to_s ) do |session_duration|
       options[:session_duration_hrs] = session_duration
     end
-  end # OptionParser
+
+    opts.on('--summary', 'Summary mode. Default: ' + options[:summary].to_s ) do |summary|
+      options[:summary] = summary
+    end
+
+    opts.on('--compact', 'Compact mode. Default: ' + options[:compact].to_s ) do |compact|
+      options[:compact] = compact
+    end
+
+  end
 
   option_parser.parse!
 
   if options[:project] && options[:path_to_repo] && options[:output_file]
     extractor = GitTimeExtractor.new(options)
-    rows = extractor.process_git_log_into_time
+    if options[:summary]
+      rows = extractor.process_git_log_into_summary
+    elsif options[:compact]
+      rows = extractor.process_git_log_into_author_summary
+    else
+      rows = extractor.process_git_log_into_time
+    end
     if options[:output_file] == '-'
       rows.each do |row|
         puts row.map!{|value| value.to_s.gsub('"', '\"').gsub("\n", '\n') }.to_csv
