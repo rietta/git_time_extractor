@@ -36,6 +36,8 @@ Usage: git_time_extractor [options]
     -m, --merge-effort MERGE_EFFORT  Effort spent merging, in minutes. Default: 30
     -s SESSION_DURATION,             Session duration, in hours. Default: 3
         --session-duration
+        --project-total              Project commits and time rolled into a single summary line. The field set is total git commit count, total hours, and a list of collaborators.
+        --compact                    Compact mode that lists only total git commit count, total hours, person, email.
 ```
 ### Most basic usage
 
