@@ -53,7 +53,7 @@ Once the you have used Git Time Extractor to prepare a CSV file, you can perform
 
 ## 3. License Terms (BSD License)
 
-&copy; 2014 Rietta Inc. All rights reserved.
+&copy; 2015 Rietta, Inc, and contributors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
@@ -66,6 +66,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 - [Kimmo Brunfeldt](https://github.com/kimmobrunfeldt) has written [git-hours](
 https://github.com/kimmobrunfeldt/git-hours), a NodeJS-based clone that was inspired by this `git_time_extractor`.
+- [Ad van der Veer](https://github.com/advanderveer) is working on [Timeglass](https://github.com/timeglass/glass) in the Go programming language. Unlike `git_time_extractor` and `git-hours`, both of which are built around analyzing past activity, his approach runs a timer in real time during the developer's work and annotates git commits with the time data.
 
 ## 5. What users say
 
