@@ -68,7 +68,7 @@
             'Session duration, in hours. Default: ' + options[:session_duration_hrs].to_s ) do |session_duration|
       options[:session_duration_hrs] = session_duration
     end
-  end
+  end # OptionParser
 
   option_parser.parse!
 
@@ -85,7 +85,7 @@
 
   else
     puts 'Usage: git_time_extractor -p PROJECT_NAME -i [PATH_TO_REPO] -o [OUTPUT_FILE] -c [MAX_COMMITS] -e [INITIAL_EFFORT_MINS] -m [MERGE_EFFORT_MINS] -s [SESSION_DURATION_HRS]'
-    puts 'Copyright 2014 Rietta Inc. https://rietta.com'
+    puts 'Copyright 2015 Rietta, Inc., and contributors. https://rietta.com'
     exit 0
   end # options
 
