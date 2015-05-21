@@ -70,11 +70,11 @@
       options[:session_duration_hrs] = session_duration
     end
 
-    opts.on('--project-total', 'Project commits and time rolled into a single summary line. Default: ' + options[:project_total].to_s ) do |project_total|
+    opts.on('--project-total', 'Project commits and time rolled into a single summary line. The field set is total git commit count, total hours, and a list of collaborators.' ) do |project_total|
       options[:project_total] = project_total
     end
 
-    opts.on('--compact', 'Compact mode. Default: ' + options[:compact].to_s ) do |compact|
+    opts.on('--compact', 'Compact mode that lists only total git commit count, total hours, person, and email.' ) do |compact|
       options[:compact] = compact
     end
 
