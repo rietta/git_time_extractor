@@ -8,7 +8,7 @@
 # Portions (C) 2014 Rietta Inc. and licensed under the terms of the BSD license.
 #
 class GitTimeExtractor
-  VERSION = '0.3.1'
+  VERSION = '0.3.2'
 
   require 'autoload'
   require 'set'
@@ -121,7 +121,7 @@ class GitTimeExtractor
     return rows
   end
 
-  # 
+  #
   # create a summary of the computed times
   #
   def process_git_log_into_summary
@@ -140,20 +140,30 @@ class GitTimeExtractor
       rows << [
         author.total_commits(),
         author.total_working_hours(),
-        author.commits[0].author.name, 
+        author.commits[0].author.name,
         author.commits[0].author.email,
       ]
     end
     return rows
   end
 
-  # 
+  #
   # create a summary per author
   #
   def process_git_log_into_author_summary
     distribute_entries_to_authors( load_git_log_entries( path_to_git_repo ) )
     return prepare_rows_for_author_summary_csv
   end # process_git_log_into_time
+
+  def process
+    if options[:project_total]
+      process_git_log_into_summary
+    elsif options[:compact]
+      process_git_log_into_author_summary
+    else
+      process_git_log_into_time
+    end
+  end
 
   #####################################
   private
@@ -185,7 +195,7 @@ class GitTimeExtractor
       # 'To Date',
     ]
   end # summary_header_row_template
-  
+
   def summary_header_row_template
     [
       # 'From Date',
