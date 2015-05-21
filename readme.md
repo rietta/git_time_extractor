@@ -1,6 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/git_time_extractor.png)](http://badge.fury.io/rb/git_time_extractor)
 [![Code Climate](https://codeclimate.com/github/rietta/git_time_extractor/badges/gpa.svg)](https://codeclimate.com/github/rietta/git_time_extractor)
-# EXTRACT REASONABLE TIME RECORDS FROM A GIT REPOSITORY
+
+# Extract Reasonable Time Records from a Git Repository
 
 This tool goes through a GIT repository's commit log and prints a CSV dump of per developer, per day working time based on a few assumptions:
 
@@ -53,7 +54,7 @@ Once the you have used Git Time Extractor to prepare a CSV file, you can perform
 
 ## 3. License Terms (BSD License)
 
-&copy; 2015 Rietta, Inc, and contributors. All rights reserved.
+&copy; 2012-2015 Rietta, Inc, and contributors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
