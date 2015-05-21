@@ -1,3 +1,6 @@
+=== 0.3.2 / 2015-05-20
+  Multiple small changes, compact and total-project summary options added.
+
 === 0.3.0 / 2014-11-13
   Major update. Command line configurable assumptions and multiple author support.
 === 0.2.3
