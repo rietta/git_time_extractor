@@ -114,8 +114,8 @@ class GitTimeExtractor
       authors << author.commits[0].author.name + " (" + author.commits[0].author.email + ")"
     end
     rows << [
-      hours,
       commits,
+      hours,
       authors.join(";")
     ]
     return rows
