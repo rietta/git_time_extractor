@@ -200,8 +200,8 @@ class GitTimeExtractor
     [
       # 'From Date',
       # 'To Date',
-      'Total Git Commits Count',
       'Total Hours',
+      'Total Git Commits Count',
       'Collaborators',
     ]
   end # summary_header_row_template
